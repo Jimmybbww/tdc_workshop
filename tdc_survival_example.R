@@ -27,7 +27,7 @@ tbl_coxph = function(fit){
 }
 
 # Read SAS data ====
-pth = "/Users/chi-fungcheng/Library/CloudStorage/GoogleDrive-jimmy.bbww@gmail.com/我的雲端硬碟/example2.sas7bdat"
+pth = "https://raw.githubusercontent.com/Jimmybbww/tdc_workshop/master/example.sas7bdat"
 df = haven::read_sas(pth)
 df = map(df, function(x) {attributes(x)= NULL; x}) |> as.data.frame() |> data.table::setDT()
 
