@@ -1599,60 +1599,61 @@ display:block!important;
 <section id="key-functionsoperators" class="slide level2 smaller">
 <h2>Key Functions/Operators</h2>
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href></a><span class="co"># `|&gt;` : pipe operator</span></span>
-<span id="cb6-2"><a href></a><span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)), <span class="dv">2</span>)</span>
-<span id="cb6-3"><a href></a><span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">|&gt;</span> <span class="fu">sum</span>() <span class="sc">|&gt;</span> <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
-<span id="cb6-4"><a href></a><span class="co"># dplyr</span></span>
-<span id="cb6-5"><a href></a>  <span class="co"># select(), starts_with(), ends_with()</span></span>
-<span id="cb6-6"><a href></a>    df1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb6-7"><a href></a>    df1 <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb6-8"><a href></a>    df1 <span class="sc">|&gt;</span> <span class="fu">select</span>(id, sex, <span class="fu">starts_with</span>(<span class="st">&#39;age&#39;</span>), <span class="fu">ends_with</span>(<span class="st">&#39;m&#39;</span>))</span>
-<span id="cb6-9"><a href></a>    </span>
-<span id="cb6-10"><a href></a>  <span class="co"># filter()</span></span>
-<span id="cb6-11"><a href></a>    df1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span>)</span>
-<span id="cb6-12"><a href></a>    </span>
-<span id="cb6-13"><a href></a>  <span class="co"># mutate()</span></span>
-<span id="cb6-14"><a href></a>    df1[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)] <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rd.age_mo =</span> <span class="fu">round</span>(age_mo))</span>
-<span id="cb6-15"><a href></a>    </span>
-<span id="cb6-16"><a href></a>  <span class="co"># rename()</span></span>
-<span id="cb6-17"><a href></a>    df1[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)] <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">age =</span> age_mo)</span>
-<span id="cb6-18"><a href></a>    </span>
-<span id="cb6-19"><a href></a>  <span class="co"># if_else()</span></span>
-<span id="cb6-20"><a href></a>    df1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sex2 =</span> <span class="fu">if_else</span>(sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span>, <span class="st">&#39;Male&#39;</span>, sex))</span>
-<span id="cb6-21"><a href></a>    </span>
-<span id="cb6-22"><a href></a>  <span class="co"># case_when()</span></span>
-<span id="cb6-23"><a href></a>    df1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sex2 =</span> <span class="fu">case_when</span>(sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span><span class="sc">~</span> <span class="st">&#39;Male&#39;</span>, sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span><span class="sc">~</span> <span class="st">&#39;Female&#39;</span>, <span class="at">.default =</span> <span class="st">&#39;Unknown&#39;</span>))</span>
-<span id="cb6-24"><a href></a></span>
-<span id="cb6-25"><a href></a><span class="co"># tidyr</span></span>
-<span id="cb6-26"><a href></a>  <span class="co"># pivot_longer()</span></span>
-<span id="cb6-27"><a href></a>    df1[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>id, <span class="at">names_to =</span> <span class="st">&quot;time&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;gi&quot;</span>)</span>
-<span id="cb6-28"><a href></a>    <span class="co"># The same as SAS &#39;proc transpose&#39;</span></span>
-<span id="cb6-29"><a href></a>    PROC TRANSPOSE DATA<span class="ot">=</span> <span class="fu">df1</span>(<span class="at">KEEP =</span> id gi_18m gi_36m) OUT<span class="ot">=</span> <span class="fu">df1_long</span>(<span class="at">RENAME =</span> (<span class="at">COL1=</span> gi <span class="at">_NAME_=</span> time));</span>
-<span id="cb6-30"><a href></a>      BY id;</span>
-<span id="cb6-31"><a href></a>      VAR gi_18m gi_36m; </span>
-<span id="cb6-32"><a href></a>    RUN;</span>
-<span id="cb6-33"><a href></a>    </span>
-<span id="cb6-34"><a href></a>  <span class="co"># lubridate</span></span>
-<span id="cb6-35"><a href></a>    <span class="co"># `%--%` : interval operator</span></span>
-<span id="cb6-36"><a href></a>    <span class="co"># make_date()</span></span>
-<span id="cb6-37"><a href></a>    x <span class="ot">=</span> <span class="fu">make_date</span>(<span class="dv">2021</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">%--%</span> <span class="fu">today</span>()</span>
-<span id="cb6-38"><a href></a>    x<span class="sc">/</span><span class="fu">years</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">months</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">weeks</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">days</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">hours</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">minutes</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">seconds</span>(<span class="dv">1</span>)</span>
-<span id="cb6-39"><a href></a>  </span>
-<span id="cb6-40"><a href></a><span class="co"># survival</span></span>
-<span id="cb6-41"><a href></a>  <span class="co"># tmerge()</span></span>
-<span id="cb6-42"><a href></a>    </span>
-<span id="cb6-43"><a href></a>  <span class="co"># coxph()</span></span>
-<span id="cb6-44"><a href></a>    m <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status)<span class="sc">~</span> sex, <span class="at">data =</span> lung)</span>
-<span id="cb6-45"><a href></a>    <span class="fu">summary</span>(m)</span>
-<span id="cb6-46"><a href></a>    </span>
-<span id="cb6-47"><a href></a>  <span class="co"># survfit</span></span>
-<span id="cb6-48"><a href></a>    <span class="fu">survfit</span>(m) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
-<span id="cb6-49"><a href></a></span>
-<span id="cb6-50"><a href></a><span class="co"># ggsurvfit</span></span>
-<span id="cb6-51"><a href></a>    km <span class="ot">=</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, status)<span class="sc">~</span> sex, <span class="at">data =</span> lung)</span>
-<span id="cb6-52"><a href></a>    km</span>
-<span id="cb6-53"><a href></a>    <span class="fu">summary</span>(km)</span>
-<span id="cb6-54"><a href></a>    plt <span class="ot">=</span> <span class="fu">ggsurvfit</span>(km)</span>
-<span id="cb6-55"><a href></a>    plt <span class="sc">+</span> <span class="fu">add_censor_mark</span>() <span class="sc">+</span> <span class="fu">add_confidence_interval</span>() <span class="sc">+</span> <span class="fu">add_risktable</span>(<span class="at">risktable_stats =</span> <span class="st">&quot;{n.risk} ({cum.event})&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href></a>  <span class="fu">round</span>(<span class="fu">sqrt</span>(<span class="fu">sum</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)), <span class="dv">2</span>)</span>
+<span id="cb6-3"><a href></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span> <span class="sc">|&gt;</span> <span class="fu">sum</span>() <span class="sc">|&gt;</span> <span class="fu">sqrt</span>() <span class="sc">|&gt;</span> <span class="fu">round</span>(<span class="dv">2</span>)</span>
+<span id="cb6-4"><a href></a></span>
+<span id="cb6-5"><a href></a><span class="co"># dplyr</span></span>
+<span id="cb6-6"><a href></a>  <span class="co"># select(), starts_with(), ends_with()</span></span>
+<span id="cb6-7"><a href></a>    df1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span>
+<span id="cb6-8"><a href></a>    df1 <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb6-9"><a href></a>    df1 <span class="sc">|&gt;</span> <span class="fu">select</span>(id, sex, <span class="fu">starts_with</span>(<span class="st">&#39;age&#39;</span>), <span class="fu">ends_with</span>(<span class="st">&#39;m&#39;</span>))</span>
+<span id="cb6-10"><a href></a>    </span>
+<span id="cb6-11"><a href></a>  <span class="co"># filter()</span></span>
+<span id="cb6-12"><a href></a>    df1 <span class="sc">|&gt;</span> <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span>)</span>
+<span id="cb6-13"><a href></a>    </span>
+<span id="cb6-14"><a href></a>  <span class="co"># mutate()</span></span>
+<span id="cb6-15"><a href></a>    df1[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)] <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">rd.age_mo =</span> <span class="fu">round</span>(age_mo))</span>
+<span id="cb6-16"><a href></a>    </span>
+<span id="cb6-17"><a href></a>  <span class="co"># rename()</span></span>
+<span id="cb6-18"><a href></a>    df1[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>)] <span class="sc">|&gt;</span> <span class="fu">rename</span>(<span class="at">age =</span> age_mo)</span>
+<span id="cb6-19"><a href></a>    </span>
+<span id="cb6-20"><a href></a>  <span class="co"># if_else()</span></span>
+<span id="cb6-21"><a href></a>    df1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sex2 =</span> <span class="fu">if_else</span>(sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span>, <span class="st">&#39;Male&#39;</span>, sex))</span>
+<span id="cb6-22"><a href></a>    </span>
+<span id="cb6-23"><a href></a>  <span class="co"># case_when()</span></span>
+<span id="cb6-24"><a href></a>    df1[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>] <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">sex2 =</span> <span class="fu">case_when</span>(sex <span class="sc">==</span> <span class="st">&#39;M&#39;</span><span class="sc">~</span> <span class="st">&#39;Male&#39;</span>, sex <span class="sc">==</span> <span class="st">&#39;F&#39;</span><span class="sc">~</span> <span class="st">&#39;Female&#39;</span>, <span class="at">.default =</span> <span class="st">&#39;Unknown&#39;</span>))</span>
+<span id="cb6-25"><a href></a></span>
+<span id="cb6-26"><a href></a><span class="co"># tidyr</span></span>
+<span id="cb6-27"><a href></a>  <span class="co"># pivot_longer()</span></span>
+<span id="cb6-28"><a href></a>    df1[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)] <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">-</span>id, <span class="at">names_to =</span> <span class="st">&quot;time&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;gi&quot;</span>)</span>
+<span id="cb6-29"><a href></a>    <span class="co"># The same as SAS &#39;proc transpose&#39;</span></span>
+<span id="cb6-30"><a href></a>    PROC TRANSPOSE DATA<span class="ot">=</span> <span class="fu">df1</span>(<span class="at">KEEP =</span> id gi_18m gi_36m) OUT<span class="ot">=</span> <span class="fu">df1_long</span>(<span class="at">RENAME =</span> (<span class="at">COL1=</span> gi <span class="at">_NAME_=</span> time));</span>
+<span id="cb6-31"><a href></a>      BY id;</span>
+<span id="cb6-32"><a href></a>      VAR gi_18m gi_36m; </span>
+<span id="cb6-33"><a href></a>    RUN;</span>
+<span id="cb6-34"><a href></a>    </span>
+<span id="cb6-35"><a href></a>  <span class="co"># lubridate</span></span>
+<span id="cb6-36"><a href></a>    <span class="co"># `%--%` : interval operator</span></span>
+<span id="cb6-37"><a href></a>    <span class="co"># make_date()</span></span>
+<span id="cb6-38"><a href></a>    x <span class="ot">=</span> <span class="fu">make_date</span>(<span class="dv">2021</span>, <span class="dv">1</span>, <span class="dv">1</span>) <span class="sc">%--%</span> <span class="fu">today</span>()</span>
+<span id="cb6-39"><a href></a>    x<span class="sc">/</span><span class="fu">years</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">months</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">weeks</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">days</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">hours</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">minutes</span>(<span class="dv">1</span>); x<span class="sc">/</span><span class="fu">seconds</span>(<span class="dv">1</span>)</span>
+<span id="cb6-40"><a href></a>  </span>
+<span id="cb6-41"><a href></a><span class="co"># survival</span></span>
+<span id="cb6-42"><a href></a>  <span class="co"># tmerge()</span></span>
+<span id="cb6-43"><a href></a>    </span>
+<span id="cb6-44"><a href></a>  <span class="co"># coxph()</span></span>
+<span id="cb6-45"><a href></a>    m <span class="ot">=</span> <span class="fu">coxph</span>(<span class="fu">Surv</span>(time, status)<span class="sc">~</span> sex, <span class="at">data =</span> lung)</span>
+<span id="cb6-46"><a href></a>    <span class="fu">summary</span>(m)</span>
+<span id="cb6-47"><a href></a>    </span>
+<span id="cb6-48"><a href></a>  <span class="co"># survfit</span></span>
+<span id="cb6-49"><a href></a>    <span class="fu">survfit</span>(m) <span class="sc">|&gt;</span> <span class="fu">plot</span>()</span>
+<span id="cb6-50"><a href></a></span>
+<span id="cb6-51"><a href></a><span class="co"># ggsurvfit</span></span>
+<span id="cb6-52"><a href></a>    km <span class="ot">=</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, status)<span class="sc">~</span> sex, <span class="at">data =</span> lung)</span>
+<span id="cb6-53"><a href></a>    km</span>
+<span id="cb6-54"><a href></a>    <span class="fu">summary</span>(km)</span>
+<span id="cb6-55"><a href></a>    plt <span class="ot">=</span> <span class="fu">ggsurvfit</span>(km)</span>
+<span id="cb6-56"><a href></a>    plt <span class="sc">+</span> <span class="fu">add_censor_mark</span>() <span class="sc">+</span> <span class="fu">add_confidence_interval</span>() <span class="sc">+</span> <span class="fu">add_risktable</span>(<span class="at">risktable_stats =</span> <span class="st">&quot;{n.risk} ({cum.event})&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
